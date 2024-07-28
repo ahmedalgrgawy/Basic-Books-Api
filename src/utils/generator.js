@@ -1,10 +1,14 @@
-var sequential = require("sequential-ids");
+var randomstring = require("randomstring");
 
-var generator = new sequential.Generator({
-    digits: 5,
-    restore: "000"
-});
 
-generator.start();
+exports.generateStoreCode = () => {
+    return randomstring.generate({
+        length: 5,
+        charset: 'alphabetic',
+        capitalization: 'uppercase'
+    });
+}
 
-module.exports = generator;
+exports.dateFormat = () => {
+    return new Date(Date.now()).toLocaleString();
+}
