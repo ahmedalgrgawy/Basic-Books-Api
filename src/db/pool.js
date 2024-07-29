@@ -1,20 +1,20 @@
-const { Pool } = require('pg')
-const dotenv = require('dotenv')
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
+dotenv.config();
 
-dotenv.config()
-
-const dbConfig = config = {
+const dbConfig = {
     connectionString: process.env.DATABASE_URL,
     connectionTimeoutMillis: 300000,
     idleTimeoutMillis: 300000,
     max: 20,
 }
 
-const pool = new Pool({ dbConfig })
+const pool = new Pool(dbConfig);
 
 pool.on('connect', () => {
     console.log("database is connected");
 })
+
 
 pool.on('remove', () => {
     console.log("database connection removed");

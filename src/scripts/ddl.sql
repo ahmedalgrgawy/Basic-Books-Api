@@ -12,7 +12,6 @@ CREATE TABLE bms.book (
 	created_by varchar(50) NOT NULL,
 	CONSTRAINT book_pkey PRIMARY KEY (book_id)
 )
-
 -- bms.store definition
 
 -- Drop table
@@ -22,9 +21,9 @@ CREATE TABLE bms.book (
 CREATE TABLE bms.store (
 	store_id serial4 NOT NULL,
 	store_name varchar(100) NOT NULL,
-	created_on timestamp NOT NULL,
-	created_by varchar(50) NOT NULL,
 	store_code varchar(5) NOT NULL,
 	address varchar(200) NOT NULL,
+	created_on timestamp NOT NULL,
+	created_by varchar(50) NOT NULL,
 	CONSTRAINT store_pkey PRIMARY KEY (store_id)
 );
