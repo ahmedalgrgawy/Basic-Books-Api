@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv')
 const storeRoute = require('./routes/store.route');
+const bookRoute = require('./routes/book.route');
 
 dotenv.config()
 
@@ -19,6 +20,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', storeRoute)
+
+app.use('/api', bookRoute)
 
 app.listen(process.env.PORT, () => {
     console.log(`server running on port ${process.env.PORT}`)

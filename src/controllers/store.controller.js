@@ -1,4 +1,3 @@
-var model = require('../models/store.model');
 var queries = require('../db/queries')
 var dbConnection = require('../db/connection')
 var generator = require('../utils/generator')
