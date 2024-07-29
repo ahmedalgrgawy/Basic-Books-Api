@@ -11,7 +11,7 @@ exports.getStoreList = async (req, res) => {
 
         var data = await dbConnection.dbQuery(storeQuery);
 
-        return res.status(200).send(JSON.stringify(data))
+        return res.status(200).send(JSON.stringify(data.rows))
 
     } catch (error) {
         console.log(error);
