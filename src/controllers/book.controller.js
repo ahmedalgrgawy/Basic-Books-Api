@@ -1,6 +1,9 @@
 var queries = require('../db/queries')
 var dbConnection = require('../db/connection')
 var generator = require('../utils/generator')
+var Logger = require('../services/logger.service')
+
+const loggerService = new Logger('book.controller')
 
 exports.getBookList = async (req, res) => {
 
@@ -9,6 +12,8 @@ exports.getBookList = async (req, res) => {
         var bookQuery = queries.queryList.GET_BOOK_LIST_QUERY
 
         var data = await dbConnection.dbQuery(bookQuery);
+
+        loggerService.info('Book List ', data)
 
         return res.status(200).send(JSON.stringify(data.rows))
 
