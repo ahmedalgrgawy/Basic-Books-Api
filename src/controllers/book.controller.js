@@ -2,6 +2,8 @@ var queries = require('../db/queries')
 var dbConnection = require('../db/connection')
 var generator = require('../utils/generator')
 var Logger = require('../services/logger.service')
+var auditService = require('../services/audit.service')
+var Actions = require('../utils/auditActions')
 
 const loggerService = new Logger('book.controller')
 
@@ -13,12 +15,16 @@ exports.getBookList = async (req, res) => {
 
         var data = await dbConnection.dbQuery(bookQuery);
 
-        loggerService.info('Book List ', data)
+        loggerService.info('Book List ', data.rows)
+
+        auditService.prepareAudit(Actions.auditActions.GET_BOOK_LIST, data.rows, null, 'Ahmed', generator.dateFormat());
 
         return res.status(200).send(JSON.stringify(data.rows))
 
     } catch (error) {
         console.log(error);
+        let errorMessage = 'Failed to get books' + error;
+        auditService.prepareAudit(Actions.auditActions.GET_BOOK_LIST, null, JSON.stringify(errorMessage), "postman", auditOn);
         return res.status(500).send({ error: 'Failed to load book' })
     }
 
