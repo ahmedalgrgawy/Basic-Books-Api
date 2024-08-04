@@ -5,6 +5,8 @@ var auditService = require('../services/audit.service')
 var Actions = require('../utils/auditActions')
 var Logger = require('../services/logger.service')
 var ApiError = require('../errors/apiError')
+var errorStatus = require('../errors/statusErrors')
+var errorType = require('../errors/errorTypes')
 
 const loggerService = new Logger('book.controller')
 
@@ -37,7 +39,7 @@ exports.getBookDetails = async (req, res) => {
         var bookId = req.params.id
 
         if (isNaN(bookId)) {
-            throw new ApiError(errorStatus.INTERNAL_SERVER_ERROR, "Invalid bookId , is not a number , bookId value is : " + bookId, true);
+            throw new ApiError(errorType.API_ERROR, errorStatus.INTERNAL_SERVER_ERROR, "Invalid bookId , is not a number , bookId value is : " + bookId, true);
         }
 
         var bookQuery = queries.queryList.GET_BOOK_DETAILS_QUERY
@@ -47,7 +49,7 @@ exports.getBookDetails = async (req, res) => {
         return res.status(200).send(JSON.stringify(data.rows[0]))
 
     } catch (error) {
-        loggerService.error(error.msg)
+        loggerService.error(error.msg, error.name)
         loggerService.error("Failed to load book details", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to load book details' })
     }
@@ -119,6 +121,10 @@ exports.deleteBook = async (req, res) => {
     var bookId = req.params.id
 
     try {
+
+        if (isNaN(bookId)) {
+            throw new ApiError(errorType.API_ERROR, errorStatus.INTERNAL_SERVER_ERROR, "Invalid bookId , is not a number , bookId value is : " + bookId, true);
+        }
 
         if (!bookId) {
             return res.status(500).send({ error: "Can Not Delete Empty Book" })

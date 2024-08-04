@@ -14,3 +14,9 @@
 8/4/2024, 6:22:04 PM | ERROR | Failed to load book details data "{}"
 8/4/2024, 6:23:47 PM | ERROR | undefined
 8/4/2024, 6:23:47 PM | ERROR | Failed to load book details data "{}"
+8/4/2024, 6:28:35 PM | ERROR | undefined
+8/4/2024, 6:28:35 PM | ERROR | Failed to load book details data "{}"
+8/4/2024, 6:28:58 PM | ERROR | undefined data "ReferenceError"
+8/4/2024, 6:28:58 PM | ERROR | Failed to load book details data "{}"
+8/4/2024, 6:31:20 PM | ERROR | Invalid bookId , is not a number , bookId value is : aadad data "API_ERROR"
+8/4/2024, 6:31:20 PM | ERROR | Failed to load book details data "{\"name\":\"API_ERROR\",\"statusCode\":500,\"msg\":\"Invalid bookId , is not a number , bookId value is : aadad\",\"isOperational\":true}"
