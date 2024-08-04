@@ -1,9 +1,10 @@
 var queries = require('../db/queries')
 var dbConnection = require('../db/connection')
 var generator = require('../utils/generator')
-var Logger = require('../services/logger.service')
 var auditService = require('../services/audit.service')
 var Actions = require('../utils/auditActions')
+var Logger = require('../services/logger.service')
+var ApiError = require('../errors/apiError')
 
 const loggerService = new Logger('book.controller')
 
@@ -22,7 +23,7 @@ exports.getBookList = async (req, res) => {
         return res.status(200).send(JSON.stringify(data.rows))
 
     } catch (error) {
-        console.log(error);
+        loggerService.error('Failed to load book', JSON.stringify(error))
         let errorMessage = 'Failed to get books' + error;
         auditService.prepareAudit(Actions.auditActions.GET_BOOK_LIST, null, JSON.stringify(errorMessage), "postman", auditOn);
         return res.status(500).send({ error: 'Failed to load book' })
@@ -35,6 +36,10 @@ exports.getBookDetails = async (req, res) => {
 
         var bookId = req.params.id
 
+        if (isNaN(bookId)) {
+            throw new ApiError(errorStatus.INTERNAL_SERVER_ERROR, "Invalid bookId , is not a number , bookId value is : " + bookId, true);
+        }
+
         var bookQuery = queries.queryList.GET_BOOK_DETAILS_QUERY
 
         var data = await dbConnection.dbQuery(bookQuery, [bookId]);
@@ -42,7 +47,8 @@ exports.getBookDetails = async (req, res) => {
         return res.status(200).send(JSON.stringify(data.rows[0]))
 
     } catch (error) {
-        console.log(error);
+        loggerService.error(error.msg)
+        loggerService.error("Failed to load book details", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to load book details' })
     }
 }
@@ -72,7 +78,7 @@ exports.saveBook = async (req, res) => {
 
         return res.status(201).send({ message: "Book Saved" })
     } catch (error) {
-        console.log(error);
+        loggerService.error("Failed to save book", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to save book' })
     }
 }
@@ -103,7 +109,7 @@ exports.updateBook = async (req, res) => {
 
         return res.status(201).send({ message: "Book Updated" })
     } catch (error) {
-        console.log(error);
+        loggerService.error("Failed to update book", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to update book' })
     }
 }
@@ -126,7 +132,7 @@ exports.deleteBook = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error);
+        loggerService.error("Failed to delete book", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to delete book' })
     }
 

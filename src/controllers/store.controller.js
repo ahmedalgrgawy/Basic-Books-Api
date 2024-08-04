@@ -13,7 +13,7 @@ exports.getStoreList = async (req, res) => {
         return res.status(200).send(JSON.stringify(data.rows))
 
     } catch (error) {
-        console.log(error);
+        loggerService.error("Failed to load list", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to load list' })
     }
 
@@ -41,7 +41,7 @@ exports.saveStoreList = async (req, res) => {
 
         return res.status(201).send({ message: "Store List Saved" })
     } catch (error) {
-        console.log(error);
+        loggerService.error("Failed to save list", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to save list' })
     }
 }

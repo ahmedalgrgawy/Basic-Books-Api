@@ -10,3 +10,7 @@
 8/4/2024, 5:31:40 PM | INFO | Book List  data [{"book_id":1,"book_title":"Dexter Book","book_author":"dexter","book_publisher":"Greg"},{"book_id":2,"book_title":"Breaking bad Book","book_author":"Walter White","book_publisher":"Greg"}]
 8/4/2024, 5:32:58 PM | INFO | Book List  data [{"book_id":1,"book_title":"Dexter Book","book_author":"dexter","book_publisher":"Greg"},{"book_id":2,"book_title":"Breaking bad Book","book_author":"Walter White","book_publisher":"Greg"}]
 8/4/2024, 5:33:08 PM | INFO | Book List  data [{"book_id":1,"book_title":"Dexter Book","book_author":"dexter","book_publisher":"Greg"},{"book_id":2,"book_title":"Breaking bad Book","book_author":"Walter White","book_publisher":"Greg"}]
+8/4/2024, 6:20:35 PM | ERROR | Failed to load book details data "{}"
+8/4/2024, 6:22:04 PM | ERROR | Failed to load book details data "{}"
+8/4/2024, 6:23:47 PM | ERROR | undefined
+8/4/2024, 6:23:47 PM | ERROR | Failed to load book details data "{}"
