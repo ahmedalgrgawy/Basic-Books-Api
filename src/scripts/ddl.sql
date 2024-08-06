@@ -38,3 +38,55 @@ CREATE TABLE bms.app_audit (
 	audit_error json NULL,
 	CONSTRAINT app_audit_pkey PRIMARY KEY (audit_id)
 );
+
+create table bms.app_users (
+	user_id serial4 not null,
+	username varchar(100) not null,
+	"password" varchar(100) not null,
+	email varchar(355) not null,
+	user_type_code varchar(10) not null,
+	full_name varchar(300) not null,
+	active int2 null default 1,
+	created_on timestamp null,
+	created_by varchar(50) null,
+	updated_on timestamp null,
+	updated_by varchar(50) null,
+	constraint user_email_key unique (email),
+	constraint user_pkey primary key (user_id),
+	constraint user_username_key unique (username)
+)
+
+create table bms.app_group (
+	group_id serial4 not null,
+	group_name varchar(100) not null,
+	constraint group_pkey primary key (group_id),
+	constraint group_group_name_key unique (group_name)
+)
+
+create table bms.app_role (
+	role_id serial4 not null,
+	role_name varchar(100) not null,
+	constraint role_pkey primary key (role_id),
+	constraint role_role_name_key unique (role_name)
+)
+
+create table bms.user_group (
+	user_group_id serial4 not null,
+	user_id int4 not null,
+	group_id int4 not null,
+	constraint user_group_pkey primary key (user_group_id)
+)
+
+create table bms.group_role (
+	group_role_id serial4 not null,
+	role_id int4 not null,
+	group_id int4 not null,
+	constraint group_role_pkey primary key (group_role_id)
+)
+
+create table bms.user_type (
+	user_type_id serial4 not null,
+	user_type_name varchar(500) not null,
+	user_type_code varchar(10) NOT NULL,
+	constraint user_type_pkey primary key (user_type_id)
+)
