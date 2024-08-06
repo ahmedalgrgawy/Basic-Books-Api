@@ -69,8 +69,6 @@ exports.saveUser = async (req, res) => {
 
         var hashedPassword = await bcrypt.hash(password, 10);
 
-        console.log('pass');
-
         var values = [userName, hashedPassword, email, userTypeCode, fullName, createdOn, createdBy]
 
         var usersQuery = queries.queryList.SAVE_USER_QUERY
@@ -83,4 +81,80 @@ exports.saveUser = async (req, res) => {
         loggerService.error("Failed to save user", JSON.stringify(error))
         return res.status(500).send({ error: 'Failed to save user' })
     }
+}
+
+exports.updateUser = async (req, res) => {
+
+    try {
+        var userId = req.params.id;
+        var userName = req.body.userName;
+        var email = req.body.email;
+        var password = req.body.password;
+        var userTypeCode = req.body.userTypeCode;
+        var fullName = req.body.fullName;
+        var updatedBy = "admin"
+        var updatedOn = new Date()
+
+        if (!userId, !userName, !password || !userTypeCode || !fullName) {
+            return res.status(500).send({ error: "There is data missing" })
+        }
+
+        var checkUserQuery = queries.queryList.USER_EXISTS_BY_ID_QUERY
+
+        var userExistence = await dbConnection.dbQuery(checkUserQuery, [userId]);
+
+        if (userExistence.rows[0].count != "0") {
+
+            var values = [userName, password, userTypeCode, fullName, updatedOn, updatedBy, userId]
+
+            var userQuery = queries.queryList.UPDATE_USER_QUERY
+
+            await dbConnection.dbQuery(userQuery, values);
+
+            return res.status(201).send({ message: "User Updated" })
+
+        } else {
+
+            return res.status(500).send({ error: "User Does Not Exists" })
+
+        }
+
+
+    } catch (error) {
+        console.log(error);
+        loggerService.error("Failed to update User", JSON.stringify(error))
+        return res.status(500).send({ error: 'Failed to update User' })
+    }
+}
+
+exports.deleteUser = async (req, res) => {
+
+    var userName = req.body.userName;
+    var email = req.body.email;
+
+    try {
+        var checkUserQuery = queries.queryList.USER_EXISTS_QUERY
+
+        var userExistence = await dbConnection.dbQuery(checkUserQuery, [userName, email]);
+
+        if (userExistence.rows[0].count != "0") {
+
+            var deleteQuery = queries.queryList.DELETE_USER_QUERY
+
+            await dbConnection.dbQuery(deleteQuery, [email]);
+
+            return res.status(200).send({ message: "User Deleted" })
+
+        } else {
+
+            return res.status(500).send({ error: "User Does Not Exists" })
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        loggerService.error("Failed to delete user", JSON.stringify(error))
+        return res.status(500).send({ error: 'Failed to delete user' })
+    }
+
 }
