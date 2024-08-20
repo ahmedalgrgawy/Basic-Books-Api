@@ -1,5 +1,6 @@
 var passwordValidator = require('password-validator');
 var passwordChecker = new passwordValidator();
+var bcrypt = require('bcryptjs');
 
 exports.isValidEmail = (email) => {
     const regEx = /\S+@\S+\.\S+/;
@@ -23,3 +24,10 @@ exports.isValidPassword = (password) => {
 
     return passwordChecker.validate(password);
 }
+
+exports.comparePassword = (password, hashedPassword) => {
+
+    return bcrypt.compareSync(password, hashedPassword);
+
+}
+
